@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Travel Planner - Discover Your Next Adventure{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+                Plan Your Perfect Trip
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto">
+                Discover amazing destinations, find the best hotels, and explore hidden gems with our AI-powered travel planner
+            </p>
+            <div class="space-x-4">
+                {% if not session.user_id %}
+                <a href="/register" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-rocket mr-2"></i>Get Started
+                </a>
+                <a href="/login" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition duration-300">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                </a>
+                {% else %}
+                <a href="/dashboard" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-dashboard mr-2"></i>Go to Dashboard
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating Elements -->
+    <div class="absolute top-20 left-10 opacity-60">
+        <i class="fas fa-plane text-white text-4xl animate-bounce"></i>
+    </div>
+    <div class="absolute top-40 right-20 opacity-60">
+        <i class="fas fa-map-marker-alt text-white text-3xl animate-pulse"></i>
+    </div>
+    <div class="absolute bottom-20 left-20 opacity-60">
+        <i class="fas fa-suitcase-rolling text-white text-3xl animate-bounce" style="animation-delay: 1s"></i>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Travel Planner?</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                We use advanced AI technology to help you discover the best destinations and accommodations
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center p-8 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <div class="bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-robot text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">AI-Powered Recommendations</h3>
+                <p class="text-gray-600">
+                    Get personalized travel suggestions powered by advanced AI technology that understands your preferences
+                </p>
+            </div>
+            
+            <div class="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-100 rounded-2xl hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <div class="bg-purple-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-map-marked-alt text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Discover Hidden Gems</h3>
+                <p class="text-gray-600">
+                    Find unique places and attractions that you might miss with traditional travel planning
+                </p>
+            </div>
+            
+            <div class="text-center p-8 bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
+                <div class="bg-green-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-hotel text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Best Hotel Deals</h3>
+                <p class="text-gray-600">
+                    Compare and find the perfect accommodations that match your budget and preferences
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+            <p class="text-lg text-gray-600">Simple steps to plan your perfect trip</p>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">1</div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Sign Up</h3>
+                <p class="text-gray-600">Create your free account in seconds</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">2</div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Search</h3>
+                <p class="text-gray-600">Enter your dream destination</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gradient-to-r from-pink-500 to-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">3</div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Discover</h3>
+                <p class="text-gray-600">Get AI-powered recommendations</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-gradient-to-r from-red-500 to-orange-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-white font-bold text-xl">4</div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Travel</h3>
+                <p class="text-gray-600">Enjoy your perfect trip!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8 text-center text-white">
+            <div>
+                <div class="text-4xl font-bold mb-2">10k+</div>
+                <div class="text-lg opacity-90">Happy Travelers</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-2">500+</div>
+                <div class="text-lg opacity-90">Destinations</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-2">50k+</div>
+                <div class="text-lg opacity-90">Places Discovered</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-2">98%</div>
+                <div class="text-lg opacity-90">Satisfaction Rate</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+{% if not session.user_id %}
+<div class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Ready to Start Your Journey?
+        </h2>
+        <p class="text-lg text-gray-600 mb-8">
+            Join thousands of travelers who trust us with their adventures
+        </p>
+        <a href="/register" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-12 py-4 rounded-full font-semibold text-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+            <i class="fas fa-paper-plane mr-2"></i>Start Planning Now
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fade-in 1s ease-out;
+    }
+</style>
+{% endblock %}

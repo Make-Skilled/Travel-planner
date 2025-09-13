@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Travel Planner{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Welcome Header -->
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white mb-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Welcome back, {{ session.username }}! 👋</h1>
+                <p class="text-lg opacity-90">Ready to discover your next amazing destination?</p>
+            </div>
+            <div class="hidden md:block">
+                <i class="fas fa-globe-americas text-6xl opacity-30"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-search text-primary mr-3"></i>
+            Plan Your Next Adventure
+        </h2>
+        
+        <form method="POST" action="/search" class="max-w-2xl">
+            <div class="flex space-x-4">
+                <div class="flex-1 relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fas fa-map-marker-alt text-gray-400"></i>
+                    </div>
+                    <input type="text" name="destination" required
+                           class="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent text-lg"
+                           placeholder="Where do you want to go? (e.g., Paris, Tokyo, New York)">
+                </div>
+                <button type="submit" 
+                        class="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition duration-300">
+                    <i class="fas fa-paper-plane mr-2"></i>Explore
+                </button>
+            </div>
+        </form>
+        
+        <!-- Quick Destination Suggestions -->
+        <div class="mt-6">
+            <p class="text-gray-600 mb-4">Popular destinations:</p>
+            <div class="flex flex-wrap gap-2">
+                {% set popular_destinations = ['Paris', 'Tokyo', 'New York', 'London', 'Bali', 'Dubai', 'Rome', 'Sydney'] %}
+                {% for dest in popular_destinations %}
+                <button onclick="searchDestination('{{ dest }}')" 
+                        class="bg-gray-100 hover:bg-primary hover:text-white px-4 py-2 rounded-full text-sm transition duration-200">
+                    {{ dest }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Searches -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <i class="fas fa-history text-primary mr-3"></i>
+            Your Recent Searches
+        </h2>
+        
+        {% if searches %}
+        <div class="grid gap-4">
+            {% for search in searches %}
+            <div class="border border-gray-200 rounded-xl p-6 hover:shadow-md transition duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-map-pin text-primary mr-2"></i>
+                        {{ search.destination }}
+                    </h3>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-500 text-sm">
+                            <i class="fas fa-calendar mr-1"></i>
+                            {{ search.created_at.strftime('%b %d, %Y') }}
+                        </span>
+                        <a href="/results/{{ search._id }}" 
+                           class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                            <i class="fas fa-eye mr-1"></i>View Results
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Places Preview -->
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-camera text-green-500 mr-2"></i>
+                            Places to Visit ({{ search.places|length }})
+                        </h4>
+                        <div class="space-y-2">
+                            {% for place in search.places[:3] %}
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="font-medium text-gray-900">{{ place.name }}</div>
+                                <div class="text-sm text-gray-600 flex items-center">
+                                    <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                    {{ place.rating }} • {{ place.type|title }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% if search.places|length > 3 %}
+                            <div class="text-sm text-gray-500 text-center py-2">
+                                and {{ search.places|length - 3 }} more places...
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Hotels Preview -->
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-bed text-blue-500 mr-2"></i>
+                            Hotels ({{ search.hotels|length }})
+                        </h4>
+                        <div class="space-y-2">
+                            {% for hotel in search.hotels[:3] %}
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="font-medium text-gray-900">{{ hotel.name }}</div>
+                                <div class="text-sm text-gray-600 flex items-center justify-between">
+                                    <span>
+                                        <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                        {{ hotel.rating }}
+                                    </span>
+                                    <span class="font-semibold text-primary">{{ hotel.price_range }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% if search.hotels|length > 3 %}
+                            <div class="text-sm text-gray-500 text-center py-2">
+                                and {{ search.hotels|length - 3 }} more hotels...
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No searches yet</h3>
+            <p class="text-gray-500">Start exploring by searching for your dream destination above!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function searchDestination(destination) {
+        document.querySelector('input[name="destination"]').value = destination;
+        document.querySelector('form').submit();
+    }
+    
+    // Auto-focus search input
+    document.querySelector('input[name="destination"]').focus();
+    
+    // Search suggestions
+    const destinations = ['Paris', 'Tokyo', 'New York', 'London', 'Bali', 'Dubai', 'Rome', 'Sydney', 'Barcelona', 'Amsterdam', 'Bangkok', 'Singapore'];
+    const searchInput = document.querySelector('input[name="destination"]');
+    
+    searchInput.addEventListener('input', function(e) {
+        const value = e.target.value.toLowerCase();
+        if (value.length > 0) {
+            const matches = destinations.filter(dest => dest.toLowerCase().includes(value));
+            // You could implement a dropdown suggestion here
+        }
+    });
+</script>
+{% endblock %}
